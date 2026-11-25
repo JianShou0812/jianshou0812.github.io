@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Selected robot demos by Jian Shou: Loco-Manipulation and MR-VLA Long-Horizon Task.">
+  <meta name="theme-color" content="#0d2f54">
+  <title>Jian Shou · Selected Robot Demos</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #10243a;
+      --muted: #61758a;
+      --blue: #154f82;
+      --blue-dark: #0d2f54;
+      --line: #dbe4ec;
+      --surface: #ffffff;
+      --page: #f3f7fa;
+      --shadow: 0 18px 50px rgba(18, 52, 82, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(60, 125, 180, 0.12), transparent 26rem),
+        linear-gradient(180deg, #f8fbfd 0%, var(--page) 100%);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1080px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 84px;
+      border-bottom: 1px solid rgba(21, 79, 130, 0.16);
+    }
+
+    .name {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: 1.05rem;
+      font-weight: 750;
+      letter-spacing: 0.02em;
+    }
+
+    main {
+      padding: 78px 0 92px;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 0 auto 46px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: clamp(2.1rem, 6vw, 4.3rem);
+      font-weight: 780;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+    }
+
+    .demo-list {
+      display: grid;
+      gap: 34px;
+    }
+
+    .demo-card {
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .demo-head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 24px 28px;
+    }
+
+    .demo-index {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      color: #ffffff;
+      background: var(--blue);
+      border-radius: 50%;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .demo-kicker {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: clamp(1.3rem, 3vw, 1.85rem);
+      line-height: 1.2;
+    }
+
+    .video-wrap {
+      position: relative;
+      background: #07131f;
+      border-top: 1px solid var(--line);
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #07131f;
+      object-fit: contain;
+    }
+
+    video:focus-visible {
+      outline: 3px solid #6ab4ef;
+      outline-offset: -3px;
+    }
+
+    footer {
+      padding: 30px 0 42px;
+      color: var(--muted);
+      border-top: 1px solid rgba(21, 79, 130, 0.14);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 24px, 1080px);
+      }
+
+      .topbar {
+        min-height: 70px;
+      }
+
+      main {
+        padding: 54px 0 68px;
+      }
+
+      .intro {
+        margin-bottom: 34px;
+      }
+
+      .demo-list {
+        gap: 24px;
+      }
+
+      .demo-card {
+        border-radius: 15px;
+      }
+
+      .demo-head {
+        gap: 13px;
+        padding: 18px;
+      }
+
+      .demo-index {
+        width: 41px;
+        height: 41px;
+        font-size: 0.72rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell topbar">
+    <p class="name">Jian Shou</p>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <h1 id="page-title">Selected Robot Demos</h1>
+    </section>
+
+    <section class="demo-list" aria-label="Robot demos">
+      <article class="demo-card">
+        <div class="demo-head">
+          <span class="demo-index" aria-hidden="true">01</span>
+          <div>
+            <p class="demo-kicker">Demo 01</p>
+            <h2>Loco-Manipulation</h2>
+          </div>
+        </div>
+        <div class="video-wrap">
+          <video controls preload="metadata" playsinline aria-label="Loco-Manipulation demo video">
+            <source src="./videos/locomanip_under_50MB.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+      </article>
+
+      <article class="demo-card">
+        <div class="demo-head">
+          <span class="demo-index" aria-hidden="true">02</span>
+          <div>
+            <p class="demo-kicker">Demo 02</p>
+            <h2>MR-VLA Long-Horizon Task</h2>
+          </div>
+        </div>
+        <div class="video-wrap">
+          <video controls preload="metadata" playsinline aria-label="MR-VLA Long-Horizon Task demo video">
+            <source src="./videos/Mr-VLA_under_50MB.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">© Jian Shou · Robot Demos</div>
+  </footer>
+</body>
+</html>
+
