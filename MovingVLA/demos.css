@@ -1,0 +1,85 @@
+.gallery-preamble {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.15rem 0;
+}
+.gallery-preamble p { margin: 0; color: #545e6a; font-size: 1rem; }
+.gallery-panel { scroll-margin-top: 1.5rem; }
+.gallery-panel + .gallery-panel { margin-top: clamp(2.6rem, 5vw, 4.3rem); }
+.gallery-caption {
+  margin: 0;
+  color: #232933;
+  font-size: clamp(1.35rem, 2.3vw, 1.65rem);
+  line-height: 1.25;
+  font-weight: 620;
+  letter-spacing: -.025em;
+}
+.gallery-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .48rem;
+  flex: none;
+  padding: .45rem .25rem;
+  border: 0;
+  color: #354967;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: .93rem;
+  font-weight: 600;
+}
+.gallery-play:hover { color: #284caa; }
+.gallery-play::before {
+  content: "";
+  width: .7rem;
+  height: .78rem;
+  background: currentColor;
+  clip-path: polygon(10% 0, 100% 50%, 10% 100%);
+}
+.gallery-play.is-playing::before {
+  clip-path: none;
+  background: linear-gradient(to right, currentColor 32%, transparent 32% 66%, currentColor 66%);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.8rem clamp(.85rem, 2vw, 1.45rem);
+}
+.gallery-real .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gallery-trial { margin: 0; min-width: 0; }
+.gallery-trial video {
+  width: 100%;
+  display: block;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #171b20;
+  border-radius: 6px;
+}
+.gallery-real video { aspect-ratio: 16 / 9; }
+.gallery-behavior video { aspect-ratio: 1; }
+.gallery-trial figcaption { margin-top: .65rem; text-align: left; }
+.gallery-trial h3, .gallery-trial h4 {
+  margin: 0 0 .1rem;
+  color: #232933;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -.015em;
+  line-height: 1.35;
+}
+.gallery-trial small { color: #57616c; font-size: .875rem; }
+.gallery-play[hidden] { display: none; }
+.gallery-status:not(:empty) { margin: .85rem 0; color: #515965; }
+.gallery-status:empty { display: none; }
+@media (max-width: 760px) {
+  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .gallery-grid, .gallery-real .gallery-grid { grid-template-columns: 1fr; gap: 1.45rem; }
+  .gallery-preamble { gap: .65rem; margin: .8rem 0; }
+  .gallery-preamble p { font-size: .95rem; line-height: 1.45; }
+}

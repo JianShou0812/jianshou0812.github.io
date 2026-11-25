@@ -1,0 +1,63 @@
+WEBVTT
+
+00:00.180 --> 00:04.080
+MovingVLA gives mobile agents task and scene memory.
+
+00:06.130 --> 00:09.338
+The robot lifts a loaded bowl from the prep island.
+
+00:10.130 --> 00:15.790
+For the next step, the agent retrieves stored views
+of refrigerator 274.
+
+00:16.120 --> 00:20.268
+For this replay, we select a head-on approach to the
+refrigerator.
+
+00:21.130 --> 00:25.360
+The occupancy map shows free, occupied, and unknown
+space.
+
+00:25.580 --> 00:28.668
+A-star finds a path to a reachable approach.
+
+00:29.050 --> 00:34.188
+As the robot moves past the island, the refrigerator
+stays marked on the map.
+
+00:35.000 --> 00:39.578
+The green line traces where the robot actually moves
+as it carries the bowl.
+
+00:42.160 --> 00:47.390
+The frozen Awomo policy uses fresh camera images to
+place the bowl on the refrigerator shelf.
+
+00:52.170 --> 00:54.670
+Same kitchen. Same starting pose.
+
+00:55.100 --> 00:59.588
+The white circle marks the shared start. The diamond
+marks the dining counter.
+
+01:09.840 --> 01:12.040
+Awomo returns near its start.
+
+01:12.190 --> 01:14.420
+HarnessVLA turns back.
+
+01:14.560 --> 01:16.850
+MovingVLA delivers the basket.
+
+01:17.140 --> 01:23.830
+Expert demonstrations teach the task order. Scene
+memory grounds each step in a specific object and the
+space around it.
+
+01:24.650 --> 01:29.848
+These BEHAVIOR-1K rollouts show three tasks from the
+R1Pro’s head camera.
+
+01:44.650 --> 01:50.138
+Four recordings show the physical CRUZR S2 moving
+objects between workstations.

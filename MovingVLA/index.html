@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="MovingVLA connects task and scene memory to guide a mobile robot between workspaces. Experiments span RoboCasa365, BEHAVIOR-1K, and the physical CRUZR S2.">
+  <title>MovingVLA: Grounding Agentic Mobile Manipulation in Task and Scene Memory</title>
+  <link rel="icon" type="image/png" href="images/mark.png">
+  <link rel="preload" href="fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demos.css">
+  <script src="page.js" defer></script>
+  <script src="demos.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip" href="#film">Skip to overview video</a>
+  <header class="paper-header">
+    <h1><span class="paper-name">MovingVLA:</span> Grounding Agentic <span class="title-phrase">Mobile Manipulation</span> in Task and Scene Memory</h1>
+    <p class="byline" id="authors">
+      <span>Chao Fan<sup>1</sup>,</span>
+      <span>Jian Shou<sup>1</sup>,</span>
+      <span>Zhou Haoran<sup>2</sup>,</span>
+      <span>Ye Shaoze<sup>2</sup>,</span>
+      <span>Wenkai Yang<sup>1</sup>,</span>
+      <span>Jianqiang Li<sup>1</sup>,</span>
+      <span>Chengwen Luo<sup>1</sup></span>
+    </p>
+    <p class="affiliations">
+      <span><sup>1</sup> Shenzhen University</span>
+      <span><sup>2</sup> Shenzhen Sensing Data Technology Co., Ltd.</span>
+    </p>
+  </header>
+  <main id="main">
+    <section id="film" class="project-film" aria-labelledby="film-heading">
+      <h2 id="film-heading" class="visually-hidden">MovingVLA overview video</h2>
+      <figure>
+        <div class="film-screen">
+          <video id="film-player" width="1440" height="810" controls muted playsinline preload="none" poster="media/project-film-cover.webp" aria-labelledby="film-heading" aria-describedby="film-caption">
+            <source src="media/movingvla-film.mp4" type="video/mp4">
+            <track kind="captions" src="media/captions-en.vtt" srclang="en" label="English">
+            Your browser does not support embedded video.
+          </video>
+          <button id="film-cover" type="button" aria-label="Play the MovingVLA overview video" hidden>
+            <span class="cover-play" aria-hidden="true"><i></i></span>
+          </button>
+        </div>
+        <figcaption class="film-caption">
+          <p id="film-caption">MovingVLA uses a remembered view of the refrigerator to position the robot within reach of the shelf. The video follows the bowl from pickup to placement, then shows simulated and real-world trials.</p>
+        </figcaption>
+      </figure>
+      <details class="chapters">
+        <summary>Chapters</summary>
+        <nav aria-label="Video chapters">
+          <a href="media/movingvla-film.mp4#t=0" data-chapter="0" aria-current="true"><time>0:00</time> Overview</a>
+          <a href="media/movingvla-film.mp4#t=6" data-chapter="6"><time>0:06</time> Relocalize</a>
+          <a href="media/movingvla-film.mp4#t=21" data-chapter="21"><time>0:21</time> Object navigation</a>
+          <a href="media/movingvla-film.mp4#t=42" data-chapter="42"><time>0:42</time> Local manipulation</a>
+          <a href="media/movingvla-film.mp4#t=52" data-chapter="52"><time>0:52</time> Navigation trajectories</a>
+          <a href="media/movingvla-film.mp4#t=84" data-chapter="84"><time>1:24</time> BEHAVIOR-1K rollouts</a>
+          <a href="media/movingvla-film.mp4#t=104" data-chapter="104"><time>1:44</time> Real-robot rollouts</a>
+        </nav>
+      </details>
+      <p id="film-status" role="status" hidden></p>
+    </section>
+    <section class="paper-section" id="abstract" aria-labelledby="abstract-title">
+      <div class="reading-width">
+        <h2 class="section-heading" id="abstract-title">Abstract</h2>
+        <p>Agentic robotics is emerging as a way to tackle long-horizon tasks by composing learned skills. In mobile manipulation, where the robot stops affects what a local policy sees and what the robot can reach. We present MovingVLA, a framework for instance-grounded skill scheduling. The planner uses task memory to choose the next interaction and binds it to an instance in scene memory. The same instance guides approach preparation and navigation. After arrival, the planner uses fresh observations to decide whether to invoke a frozen vision-language-action (VLA) policy or revise the approach. Feedback from local execution informs the next skill call. On RoboCasa365 Navigation20, MovingVLA raises task success from 51.83% to 70.0% with frozen Awomo-0.5I and from 10.7% to 53.5% with frozen RLDX-1. It also improves mean success over the corresponding standalone policies on six BEHAVIOR-1K tasks and four real-robot tasks. MovingVLA offers a way to extend advances in local robot skills to long-horizon mobile tasks. Code will be released.</p>
+      </div>
+    </section>
+    <section class="paper-section" id="method" aria-labelledby="method-title">
+      <div class="page-width">
+        <h2 id="method-title" class="section-heading">The MovingVLA Framework</h2>
+        <div class="method-figures" id="figures">
+          <figure class="paper-figure" id="figure-1">
+            <button type="button" data-paper-figure aria-label="Enlarge figure showing how the robot prepares for a local interaction">
+              <img src="paper-figures/fig-1.webp" width="2800" height="1576" loading="lazy" alt="Kitchen views and an overhead map trace one target object from task selection to a base pose for manipulation. Colored robot footprints mark alternative poses.">
+            </button>
+            <figcaption>Figure 1. <strong>Connecting Task Progression to Local Interaction.</strong> MovingVLA uses the target instance to connect workflow priors, historical object evidence, and navigation geometry. Relocalize prepares and validates candidate base poses; Object Navigation selects the first reachable candidate in the VLM-ranked order using A*. Fresh observations after arrival support planner reassessment before frozen VLA execution. Colored base footprints illustrate alternative poses of the same robot.</figcaption>
+          </figure>
+          <figure class="paper-figure" id="figure-2">
+            <button type="button" data-paper-figure aria-label="Enlarge the MovingVLA system overview">
+              <img src="paper-figures/fig-2.webp" width="2800" height="1400" loading="lazy" alt="System diagram showing the planner, the task workflow and scene map, the navigation stages, and observations fed back from the frozen manipulation policy.">
+            </button>
+            <figcaption>Figure 2. <strong>Overview of MovingVLA.</strong> The VLM planner uses the task instruction <i>I</i>, current observations, and task and scene memory to select a target instance <i>i</i> (§3.2). Relocalize retrieves instance-indexed visual evidence, proposes and ranks base poses, and filters them using depth, camera calibration, and navigation geometry (§3.3). Object Navigation uses A* to plan a path to the first reachable candidate in ranked order. After arrival, the planner reviews fresh observations and decides whether to invoke the frozen VLA, which performs local interactions using the resulting visual context and the original complete task instruction <i>I</i>.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+    <section id="demos" class="paper-section" aria-labelledby="demo-title">
+      <div class="page-width">
+        <h2 class="section-heading" id="demo-title">Real-World Experiments</h2>
+        <div class="gallery-panel gallery-real" id="gallery-real" data-gallery-group>
+          <div class="gallery-preamble">
+            <p id="protocol-real">The UBTECH CRUZR S2 performs four household tasks.</p>
+            <button class="gallery-play" type="button" data-gallery-play aria-controls="grid-real" aria-describedby="protocol-real" hidden><span>Play all</span></button>
+          </div>
+          <p class="gallery-status" role="status" data-gallery-status></p>
+          <div class="gallery-grid" id="grid-real">
+            <figure class="gallery-trial" data-demo-environment="real">
+              <video controls muted playsinline preload="none" poster="demos/real-tableware.webp" aria-labelledby="caption-real-tableware">
+                <source src="demos/real-tableware.mp4" type="video/mp4">
+              </video>
+              <figcaption><h3 id="caption-real-tableware">Retrieve a bowl and spoon</h3><small>0:20 · <span data-speed-timeline="[[0.0,8.9],[2.237059,15.6],[10.098723,6.7],[14.57284,5.6],[19.375,0]]">5.6–15.6×</span> speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="real">
+              <video controls muted playsinline preload="none" poster="demos/real-pen.webp" aria-labelledby="caption-real-pen">
+                <source src="demos/real-pen.mp4" type="video/mp4">
+              </video>
+              <figcaption><h3 id="caption-real-pen">Hand over a pen</h3><small>0:20 · <span data-speed-timeline="[[0.0,8.1],[3.344323,7.3],[8.16125,5.0],[12.323074,4.0],[18.516266,6.1],[19.375,0]]">4–8.1×</span> speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="real">
+              <video controls muted playsinline preload="none" poster="demos/real-trash.webp" aria-labelledby="caption-real-trash">
+                <source src="demos/real-trash.mp4" type="video/mp4">
+              </video>
+              <figcaption><h3 id="caption-real-trash">Dispose of trash</h3><small>0:20 · <span data-speed-timeline="[[0.0,6.8],[3.548278,2.3],[15.967249,4.5],[19.375,0]]">2.3–6.8×</span> speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="real">
+              <video controls muted playsinline preload="none" poster="demos/real-vegetables.webp" aria-labelledby="caption-real-vegetables">
+                <source src="demos/real-vegetables.mp4" type="video/mp4">
+              </video>
+              <figcaption><h3 id="caption-real-vegetables">Assemble the vegetables</h3><small>0:20 · <span data-speed-timeline="[[0.0,15.7],[3.064594,7.8],[6.256879,23.5],[9.789674,9.8],[12.445656,4.9],[18.574843,7.8],[19.375,0]]">4.9–23.5×</span> speed</small></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="simulation" class="paper-section" aria-labelledby="simulation-title">
+      <div class="page-width">
+        <h2 class="section-heading" id="simulation-title">Simulation Experiments</h2>
+        <div class="gallery-panel gallery-robocasa" id="gallery-robocasa" data-gallery-group>
+          <div class="gallery-preamble">
+            <h3 class="gallery-caption" id="platform-robocasa">RoboCasa365</h3>
+            <button class="gallery-play" type="button" data-gallery-play aria-controls="grid-robocasa" aria-describedby="platform-robocasa" hidden><span>Play all</span></button>
+          </div>
+          <p class="gallery-status" role="status" data-gallery-status></p>
+          <div class="gallery-grid" id="grid-robocasa">
+            <figure class="gallery-trial" data-demo-environment="robocasa">
+              <video controls muted playsinline preload="none" poster="demos/robocasa-bread-basket.webp" aria-labelledby="caption-robocasa-bread-basket">
+                <source src="demos/robocasa-bread-basket.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-robocasa-bread-basket">Carry the bread basket</h4><small>0:22 · 5× speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="robocasa">
+              <video controls muted playsinline preload="none" poster="demos/robocasa-leftovers.webp" aria-labelledby="caption-robocasa-leftovers">
+                <source src="demos/robocasa-leftovers.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-robocasa-leftovers">Store leftovers in the fridge</h4><small>0:24 · 2.5× speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="robocasa">
+              <video controls muted playsinline preload="none" poster="demos/extra-cutting-station.webp" aria-labelledby="caption-extra-cutting-station">
+                <source src="demos/extra-cutting-station.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-extra-cutting-station">Set up a cutting station</h4><small>0:23 · 4× speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="robocasa">
+              <video controls muted playsinline preload="none" poster="demos/extra-garnish-pancake.webp" aria-labelledby="caption-extra-garnish-pancake">
+                <source src="demos/extra-garnish-pancake.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-extra-garnish-pancake">Garnish a pancake</h4><small>0:20 · 3× speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="robocasa">
+              <video controls muted playsinline preload="none" poster="demos/extra-recycle-bottles.webp" aria-labelledby="caption-extra-recycle-bottles">
+                <source src="demos/extra-recycle-bottles.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-extra-recycle-bottles">Sort bottles for recycling</h4><small>0:22 · 9× speed</small></figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="gallery-panel gallery-behavior" id="gallery-behavior" data-gallery-group>
+          <div class="gallery-preamble">
+            <h3 class="gallery-caption" id="platform-behavior">BEHAVIOR-1K</h3>
+            <button class="gallery-play" type="button" data-gallery-play aria-controls="grid-behavior" aria-describedby="platform-behavior" hidden><span>Play all</span></button>
+          </div>
+          <p class="gallery-status" role="status" data-gallery-status></p>
+          <div class="gallery-grid" id="grid-behavior">
+            <figure class="gallery-trial" data-demo-environment="behavior">
+              <video controls muted playsinline preload="none" poster="demos/behavior-water.webp" aria-labelledby="caption-behavior-water">
+                <source src="demos/behavior-water.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-behavior-water">Bring water</h4><small>0:20 · <span data-speed-timeline="[[0.0,22.3],[3.770853,13.9],[7.003012,22.3],[8.888438,8.4],[11.043211,27.8],[17.687095,11.1],[19.375,0]]">8.4–27.8×</span> speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="behavior">
+              <video controls muted playsinline preload="none" poster="demos/behavior-radio.webp" aria-labelledby="caption-behavior-radio">
+                <source src="demos/behavior-radio.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-behavior-radio">Turn on a radio</h4><small>0:20 · <span data-speed-timeline="[[0.0,3.4],[5.800898,2.9],[16.242515,2.3],[19.375,0]]">2.3–3.4×</span> speed</small></figcaption>
+            </figure>
+            <figure class="gallery-trial" data-demo-environment="behavior">
+              <video controls muted playsinline preload="none" poster="demos/behavior-trash.webp" aria-labelledby="caption-behavior-trash">
+                <source src="demos/behavior-trash.mp4" type="video/mp4">
+              </video>
+              <figcaption><h4 id="caption-behavior-trash">Pick up trash</h4><small>0:20 · <span data-speed-timeline="[[0.0,11.0],[4.525582,9.9],[7.442069,6.6],[9.101449,11.0],[11.454752,7.7],[13.52359,13.3],[15.258396,5.0],[19.375,0]]">5–13.3×</span> speed</small></figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="paper-section" id="results" aria-labelledby="results-title">
+      <div class="page-width">
+        <h2 id="results-title" class="section-heading">Quantitative Results</h2>
+        <div class="table-scroll" role="region" aria-label="End-to-end task success (%)" tabindex="0">
+          <table class="results-table">
+            <caption>End-to-end task success (%)</caption>
+            <thead><tr><th scope="col">Evaluation</th><th scope="col">Frozen policy</th><th scope="col">Standalone</th><th scope="col">MovingVLA</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">RoboCasa365 · Navigation20</th><td>Awomo-0.5I</td><td>51.83</td><td><strong>70.0</strong></td></tr>
+              <tr><th scope="row">RoboCasa365 · Navigation20</th><td>RLDX-1</td><td>10.7</td><td><strong>53.5</strong></td></tr>
+              <tr><th scope="row">RoboCasa365 · Target50</th><td>Awomo-0.5I</td><td>64.4</td><td><strong>73.6</strong></td></tr>
+              <tr><th scope="row">RoboCasa365 · Target50</th><td>RLDX-1</td><td>30.0</td><td><strong>63.7</strong></td></tr>
+              <tr><th scope="row">BEHAVIOR-1K · 6 tasks</th><td>Comet</td><td>45.0</td><td><strong>55.8</strong></td></tr>
+              <tr><th scope="row">CRUZR S2 · 4 tasks</th><td>π<sub>0.5</sub></td><td>27.50</td><td><strong>38.75</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="result-details">
+          <details class="result-detail" id="result-robocasa">
+            <summary>RoboCasa365 by split</summary>
+            <p>Navigation20 comprises 20 composite tasks that require the robot to move between workspaces. Target50 covers 50 atomic and composite tasks. Column headings give the number of tasks per split. A dash marks an unreported result.</p>
+            <div class="table-scroll" role="region" aria-label="Navigation20 success (%)" tabindex="0">
+              <table class="results-table">
+                <caption>Navigation20 success (%)</caption>
+                <thead><tr><th scope="col">Method</th><th scope="col">Composite seen (10)</th><th scope="col">Composite unseen (10)</th><th scope="col">Overall</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">π<sub>0.5</sub></th><td>5.0</td><td>0.4</td><td>2.7</td></tr>
+                  <tr><th scope="row">RLDX-1</th><td>15.4</td><td>6.0</td><td>10.7</td></tr>
+                  <tr><th scope="row">Awomo-0.5I</th><td>55.33</td><td>48.33</td><td>51.83</td></tr>
+                  <tr><th scope="row">MovingVLA (RLDX-1)</th><td>51.0</td><td>56.0</td><td>53.5</td></tr>
+                  <tr><th scope="row">MovingVLA (Awomo-0.5I)</th><td>67.0</td><td>73.0</td><td>70.0</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-scroll" role="region" aria-label="Target50 success (%)" tabindex="0">
+              <table class="results-table">
+                <caption>Target50 success (%)</caption>
+                <thead><tr><th scope="col">Method</th><th scope="col">Atomic seen (18)</th><th scope="col">Composite seen (16)</th><th scope="col">Composite unseen (16)</th><th scope="col">Overall</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">π<sub>0.5</sub></th><td>39.6</td><td>7.1</td><td>1.2</td><td>16.9</td></tr>
+                  <tr><th scope="row">RLDX-1</th><td>60.0</td><td>21.3</td><td>5.0</td><td>30.0</td></tr>
+                  <tr><th scope="row">HarnessVLA</th><td>87.78</td><td>43.75</td><td>42.50</td><td>59.20</td></tr>
+                  <tr><th scope="row">Awomo-0.5I</th><td>86.5</td><td>58.8</td><td>45.2</td><td>64.4</td></tr>
+                  <tr><th scope="row">MobiAgent (R3)</th><td><span aria-label="unreported">—</span></td><td>27.50</td><td><span aria-label="unreported">—</span></td><td><span aria-label="unreported">—</span></td></tr>
+                  <tr><th scope="row">MovingVLA (RLDX-1)</th><td>88.0</td><td>53.0</td><td>47.0</td><td>63.7</td></tr>
+                  <tr><th scope="row">MovingVLA (Awomo-0.5I)</th><td>89.8</td><td>67.3</td><td>61.9</td><td>73.6</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <details class="result-detail" id="result-behavior">
+            <summary>BEHAVIOR-1K by task</summary>
+            <p>The simulated R1Pro robot performs six household tasks. The simulator checks the final task state, and each task contributes equally to the mean. Published MobiAgent results cover four of the six tasks.</p>
+            <div class="table-scroll" role="region" aria-label="BEHAVIOR-1K success (%)" tabindex="0">
+              <table class="results-table">
+                <caption>BEHAVIOR-1K success (%)</caption>
+                <thead><tr><th scope="col">Task</th><th scope="col">Comet</th><th scope="col">π<sub>0.5</sub>-TA</th><th scope="col">MobiAgent</th><th scope="col">MovingVLA (Comet)</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Pick up trash</th><td>40</td><td>40</td><td>60</td><td>65</td></tr>
+                  <tr><th scope="row">Bring water</th><td>70</td><td>10</td><td>60</td><td>75</td></tr>
+                  <tr><th scope="row">Move boxes to storage</th><td>90</td><td>60</td><td>70</td><td>90</td></tr>
+                  <tr><th scope="row">Turn on a radio</th><td>70</td><td>60</td><td>70</td><td>80</td></tr>
+                  <tr><th scope="row">Sort household items</th><td>0</td><td>0</td><td><span aria-label="unreported">—</span></td><td>15</td></tr>
+                  <tr><th scope="row">Clear food from a table into a refrigerator</th><td>0</td><td>0</td><td><span aria-label="unreported">—</span></td><td>10</td></tr>
+                  <tr><th scope="row">Mean</th><td>45.0</td><td>28.3</td><td><span aria-label="unreported">—</span></td><td>55.8</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <details class="result-detail" id="result-real">
+            <summary>CRUZR S2 by task</summary>
+            <p>The UBTECH CRUZR S2 starts from matched configurations for both methods. A human observer judges the final state. Timeouts and interventions count as failures.</p>
+            <div class="table-scroll" role="region" aria-label="Physical robot success (%)" tabindex="0">
+              <table class="results-table">
+                <caption>Physical robot success (%)</caption>
+                <thead><tr><th scope="col">Task</th><th scope="col">π<sub>0.5</sub></th><th scope="col">MovingVLA (π<sub>0.5</sub>)</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Pen handover</th><td>50</td><td>50</td></tr>
+                  <tr><th scope="row">Trash disposal</th><td>25</td><td>40</td></tr>
+                  <tr><th scope="row">Assemble the vegetables</th><td>15</td><td>35</td></tr>
+                  <tr><th scope="row">Get a bowl and a spoon</th><td>20</td><td>30</td></tr>
+                  <tr><th scope="row">Mean</th><td>27.50</td><td>38.75</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+  <dialog id="figure-viewer" aria-labelledby="viewer-title">
+    <header>
+      <h2 id="viewer-title">Method figure</h2>
+      <button type="button" id="figure-zoom" aria-pressed="false">Actual size</button>
+      <button type="button" id="figure-close" autofocus>Close</button>
+    </header>
+    <div class="viewer-image" tabindex="0" aria-label="Enlarged paper figure" role="region"><img alt=""></div>
+  </dialog>
+  <footer class="page-footer">
+    <span>MovingVLA</span><a href="#top">Back to top</a>
+  </footer>
+</body>
+</html>
