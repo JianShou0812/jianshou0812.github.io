@@ -7,7 +7,11 @@
 }
 .gallery-preamble p { margin: 0; color: #545e6a; font-size: 1rem; }
 .gallery-panel { scroll-margin-top: 1.5rem; }
-.gallery-panel + .gallery-panel { margin-top: clamp(2.6rem, 5vw, 4.3rem); }
+.gallery-panel + .gallery-panel {
+  margin-top: clamp(2.6rem, 5vw, 4rem);
+  padding-top: clamp(1.2rem, 2.6vw, 2rem);
+  border-top: 1px solid var(--line);
+}
 .gallery-caption {
   margin: 0;
   color: #232933;
@@ -46,7 +50,7 @@
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.8rem clamp(.85rem, 2vw, 1.45rem);
+  gap: 1.9rem clamp(1rem, 2.1vw, 1.75rem);
 }
 .gallery-real .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .gallery-trial { margin: 0; min-width: 0; }
@@ -57,7 +61,7 @@
   aspect-ratio: 4 / 3;
   object-fit: contain;
   background: #171b20;
-  border-radius: 6px;
+  border-radius: .65rem;
 }
 .gallery-real video { aspect-ratio: 16 / 9; }
 .gallery-behavior video { aspect-ratio: 1; }
